@@ -1,2 +1,0 @@
-AUTOMAKER_OPTIONS = foreign
-SUBDIRS = src
