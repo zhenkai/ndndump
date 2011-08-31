@@ -24,7 +24,6 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <string.h>
-#include <signal.h>
 #include <sys/types.h>
 
 
@@ -66,9 +65,7 @@ int match_name(struct ccn_charbuf *c);
  * handler just to fflush(stdout) every time a 
  * packet is processed.
  */
-void sig_handler(int signum) {
-	fflush(stdout);
-}
+
 
 
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet) {
@@ -128,7 +125,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 		default:
 			return;
 	}
-	kill(getpid(), SIGUSR1);
+	fflush(stdout);
 
 }
 
@@ -521,7 +518,6 @@ int dissect_ccn_content(const unsigned char *ccnb, int ccnb_size, char *pbuf, ch
 
 int main(int argc, char *argv[])
 {
-	signal(SIGUSR1, sig_handler);
 	char *dev = NULL;
 	char errbuf[PCAP_ERRBUF_SIZE];
 	pcap_t *handle;						/* Session handle */
